@@ -1,5 +1,6 @@
 import discord
 
+
 class Channel:
   channel: discord.channel
   
@@ -10,7 +11,6 @@ class Channel:
     messages = []
     async for message in self.channel.history(limit=None):
       messages.append(message)
-      print(message)
     
     return messages
 
