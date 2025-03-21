@@ -17,6 +17,11 @@ poetry env activate
 poetry install
 ```
 
+## Run Pre-Commit
+```shell
+poetry run pre-commit run -a
+```
+
 ## Run tests
 ```shell
 poetry run pytest

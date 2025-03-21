@@ -26,6 +26,4 @@ For commit messages there are a few standard prefixes to quickly indicate what t
 - `UPD`: Updates to existing functionalities
 
 Before a feature branch is ready for a PR, the pre-commit needs to be run for linting to check formatting.
-```shell
-poetry run pre-commit run -a
-```
+
