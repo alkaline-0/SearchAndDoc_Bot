@@ -9,9 +9,9 @@ _intents.members = True
 
 client = commands.Bot(intents=_intents, command_prefix="!")
 
-async def run(bot: any, token: str):
-  try:
-    await bot.start(token)
-  except KeyboardInterrupt:
-    await bot.logout()
 
+async def run(bot: any, token: str):
+    try:
+        await bot.start(token)
+    except KeyboardInterrupt:
+        await bot.logout()
