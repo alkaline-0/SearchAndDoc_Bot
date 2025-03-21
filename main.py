@@ -6,25 +6,13 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 import helpers.commands
+import helpers.worker
 from views.discord_bot.bot import client, run
+
+threading.Thread(target=helpers.worker.worker, daemon=True).start()
 
 app = FastAPI()
 load_dotenv()
-job_queue = helpers.commands.job_queue
-
-
-def worker() -> None:
-    while True:
-        # Get the job from the queue and execute it
-        job = job_queue.get()
-        try:
-            for msg in job:
-                print(msg.content)
-        finally:
-            job_queue.task_done()
-
-
-threading.Thread(target=worker, daemon=True).start()
 
 
 async def main() -> None:
