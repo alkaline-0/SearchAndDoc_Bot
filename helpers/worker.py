@@ -1,6 +1,6 @@
 import queue
 
-from services.trigger_search import TriggerSearchService
+from services.trigger_search import create_search_request
 
 job_queue = queue.Queue()
 
@@ -10,7 +10,7 @@ def worker() -> None:
         # Get the job from the queue and execute it
         job = job_queue.get()
         try:
-            res = TriggerSearchService.instance().trigger_search(job)
+            res = create_search_request(job)
             print(len(res))
         finally:
             job_queue.task_done()
