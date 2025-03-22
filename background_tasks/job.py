@@ -4,6 +4,6 @@ from models.channel import Channel
 
 
 @dataclass
-class WorkerTask:
+class Job:
     channel: Channel = None
     topic: str = None

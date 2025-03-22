@@ -5,11 +5,15 @@ import threading
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-import views.discord_bot.commands
-import background_tasks.worker
+import background_tasks.thread_worker
+
+# flake8: noqa
+import views.discord_bot.commands  # pylint: disable=unused-import
 from views.discord_bot.bot import client, run
 
-threading.Thread(target=background_tasks.worker.worker, daemon=True).start()
+threading.Thread(
+    target=background_tasks.thread_worker.run_thread_worker, daemon=True
+).start()
 
 app = FastAPI()
 load_dotenv()

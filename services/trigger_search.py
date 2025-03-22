@@ -1,6 +1,6 @@
-from background_tasks.worker_task import WorkerTask
+from background_tasks.job import Job
 
 
-def create_search_request(worker_task: WorkerTask) -> None:
+def create_search_request(job_obj: Job) -> None:
     # clean up messages
-    return worker_task.channel.get_messages()
+    return job_obj.channel.get_messages()

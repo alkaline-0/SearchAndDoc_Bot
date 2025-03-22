@@ -5,7 +5,7 @@ from services.trigger_search import create_search_request
 job_queue = queue.Queue()
 
 
-def worker() -> None:
+def run_thread_worker() -> None:
     while True:
         # Get the job from the queue and execute it
         job = job_queue.get()
