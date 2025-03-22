@@ -1,7 +1,7 @@
 import discord
 
-from helpers.worker import job_queue
-from helpers.worker_task import WorkerTask
+from background_tasks.worker import job_queue
+from background_tasks.worker_task import WorkerTask
 from models.channel import Channel
 from views.discord_bot.bot import client as bot
 

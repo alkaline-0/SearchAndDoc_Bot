@@ -8,7 +8,7 @@ authors = [
 packages = [
     { include = "./tests" },
     { include = "./views" },
-    { include = "./helpers" },
+    { include = "./background_tasks" },
     { include = "./models" },
     { include = "./services" },
 ]

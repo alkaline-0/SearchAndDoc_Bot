@@ -6,10 +6,10 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 import views.discord_bot.commands
-import helpers.worker
+import background_tasks.worker
 from views.discord_bot.bot import client, run
 
-threading.Thread(target=helpers.worker.worker, daemon=True).start()
+threading.Thread(target=background_tasks.worker.worker, daemon=True).start()
 
 app = FastAPI()
 load_dotenv()
