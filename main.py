@@ -5,7 +5,7 @@ import threading
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-import helpers.commands
+import views.discord_bot.commands
 import helpers.worker
 from views.discord_bot.bot import client, run
 
