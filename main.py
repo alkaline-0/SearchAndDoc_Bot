@@ -6,10 +6,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 import background_tasks.thread_worker
-
-# flake8: noqa
-import views.discord_bot.commands  # pylint: disable=unused-import
 from views.discord_bot.bot import client, run
+from views.discord_bot.commands import DiscordCommands
 
 threading.Thread(
     target=background_tasks.thread_worker.run_thread_worker, daemon=True
@@ -20,6 +18,11 @@ load_dotenv()
 
 
 async def main() -> None:
+    await client.add_cog(
+        DiscordCommands(
+            client=client, job_queue=background_tasks.thread_worker.job_queue
+        )
+    )
     task = asyncio.create_task(run(bot=client, token=os.getenv("DISCORD_BOT_TOKEN")))
     await task
 
