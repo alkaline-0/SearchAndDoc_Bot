@@ -17,7 +17,7 @@ load_dotenv()
 
 
 async def main() -> None:
-    await client.add_cog(DiscordCommands(client=client, job_queue=worker.job_queue))
+    await client.add_cog(DiscordCommands(client=client, job_queue=worker.get_queue()))
     task = asyncio.create_task(run(bot=client, token=os.getenv("DISCORD_BOT_TOKEN")))
     await task
 
