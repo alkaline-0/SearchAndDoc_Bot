@@ -3,16 +3,20 @@ import discord
 
 class Channel:
     channel: discord.channel
+    messages: any
 
     def __init__(self, channel: discord.channel):
         self.channel = channel
+        self.messages = []
 
-    async def get_channel_messages(self) -> list[discord.Message]:
-        messages = []
+    async def get_channel_messages(
+        self,
+    ) -> any:
         async for message in self.channel.history(limit=None):
-            messages.append(message)
+            self.messages.append(message)
 
-        return messages
+    def get_messages(self) -> any:
+        return self.messages
 
 
 # Squence diagram with different Actors // Use mermaid with the code

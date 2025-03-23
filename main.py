@@ -5,29 +5,19 @@ import threading
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-import helpers.commands
+import background_tasks.thread_worker
 from views.discord_bot.bot import client, run
+from views.discord_bot.commands import DiscordCommands
+
+worker = background_tasks.thread_worker.Worker()
+threading.Thread(target=worker.run, daemon=True).start()
 
 app = FastAPI()
 load_dotenv()
-job_queue = helpers.commands.job_queue
-
-
-def worker() -> None:
-    while True:
-        # Get the job from the queue and execute it
-        job = job_queue.get()
-        try:
-            for msg in job:
-                print(msg.content)
-        finally:
-            job_queue.task_done()
-
-
-threading.Thread(target=worker, daemon=True).start()
 
 
 async def main() -> None:
+    await client.add_cog(DiscordCommands(client=client, job_queue=worker.get_queue()))
     task = asyncio.create_task(run(bot=client, token=os.getenv("DISCORD_BOT_TOKEN")))
     await task
 
