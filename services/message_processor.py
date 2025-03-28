@@ -48,7 +48,7 @@ def get_message_clusters(messages: list[discord.Message], clean_content: bool, r
                 message.content,
             )
         else:
-            cluster.content += process_content(message, clean_content, remove_markdown)
+            cluster.content += f" {process_content(message, clean_content, remove_markdown)}"
 
     # last cluster
     if cluster != None:
