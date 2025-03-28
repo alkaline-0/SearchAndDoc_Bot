@@ -1,6 +1,6 @@
-import datetime
 from collections.abc import Iterator
 from dataclasses import dataclass
+from datetime import datetime
 
 import discord
 
@@ -17,32 +17,18 @@ class MessageCluster:
         return f"[{self.created_at}] {self.author}: {self.content}"
 
 
-def process_content(
-    message: discord.Message, clean_content: bool, remove_markdown: bool
-):
-    text = message.content
-
-    if clean_content:
-        text = message.clean_content
-
-    if remove_markdown:
-        text = discord.utils.remove_markdown(text)
-
-    return text
-
-
 def get_message_clusters(
     messages: list[discord.Message], clean_content: bool, remove_markdown: bool
 ) -> Iterator[MessageCluster]:
     cluster = None
     for message in messages:
         if (
-            cluster == None
+            cluster is None
             or message.author != cluster.author
             or message.channel.id != cluster.channel_id
         ):
             # finish off cluster
-            if cluster != None:
+            if cluster is not None:
                 yield cluster
 
             # begin new cluster
@@ -59,5 +45,19 @@ def get_message_clusters(
             )
 
     # last cluster
-    if cluster != None:
+    if cluster is not None:
         yield cluster
+
+
+def process_content(
+    message: discord.Message, clean_content: bool, remove_markdown: bool
+):
+    text = message.content
+
+    if clean_content:
+        text = message.clean_content
+
+    if remove_markdown:
+        text = discord.utils.remove_markdown(text)
+
+    return text
