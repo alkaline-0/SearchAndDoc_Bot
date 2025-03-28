@@ -1,8 +1,29 @@
 import discord.ext.test as dpytest
 import pytest
 
+import discord
+
 from models.channel import Channel
-from services.message_processor import MessageCluster, get_message_clusters
+from services.message_processor import MessageCluster, get_message_clusters, process_content
+
+@pytest.mark.asyncio
+async def test_process_content(bot):
+    _channel = dpytest.get_config().channels[0]
+    _member = dpytest.get_config().members[0]
+
+    text = [
+        "# This is some Markdown",
+        f"<@{_member.id}> is a real G"
+    ]
+    result = [
+        " This is some Markdown",
+        f"@{discord.utils.remove_markdown(_member.display_name)} is a real G"
+    ]
+
+    for i, t in enumerate(text):
+        msg = await dpytest.message(content=t, channel=_channel, member=_member)
+        processed = process_content(msg, True, True)
+        assert(processed == result[i])
 
 
 @pytest.mark.asyncio
@@ -36,7 +57,7 @@ async def test_message_clusters(bot):
     channel_obj = Channel(channel=_channel)
     await channel_obj.get_channel_messages()
 
-    clusters = list(get_message_clusters(channel_obj.messages))
+    clusters = list(get_message_clusters(channel_obj.messages, False, False))
     cluster1: MessageCluster = clusters[0]
     cluster2: MessageCluster = clusters[1]
     cluster3: MessageCluster = clusters[2]
