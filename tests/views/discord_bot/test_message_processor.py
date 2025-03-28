@@ -1,29 +1,30 @@
+import discord
 import discord.ext.test as dpytest
 import pytest
 
-import discord
-
 from models.channel import Channel
-from services.message_processor import MessageCluster, get_message_clusters, process_content
+from services.message_processor import (
+    MessageCluster,
+    get_message_clusters,
+    process_content,
+)
+
 
 @pytest.mark.asyncio
 async def test_process_content(bot):
     _channel = dpytest.get_config().channels[0]
     _member = dpytest.get_config().members[0]
 
-    text = [
-        "# This is some Markdown",
-        f"<@{_member.id}> is a real G"
-    ]
+    text = ["# This is some Markdown", f"<@{_member.id}> is a real G"]
     result = [
         " This is some Markdown",
-        f"@{discord.utils.remove_markdown(_member.display_name)} is a real G"
+        f"@{discord.utils.remove_markdown(_member.display_name)} is a real G",
     ]
 
     for i, t in enumerate(text):
         msg = await dpytest.message(content=t, channel=_channel, member=_member)
         processed = process_content(msg, True, True)
-        assert(processed == result[i])
+        assert processed == result[i]
 
 
 @pytest.mark.asyncio

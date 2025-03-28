@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import discord
 
+
 @dataclass
 class MessageCluster:
     id: int
@@ -15,7 +16,10 @@ class MessageCluster:
     def __repr__(self):
         return f"[{self.created_at}] {self.author}: {self.content}"
 
-def process_content(message: discord.Message, clean_content: bool, remove_markdown: bool):
+
+def process_content(
+    message: discord.Message, clean_content: bool, remove_markdown: bool
+):
     text = message.content
 
     if clean_content:
@@ -27,7 +31,9 @@ def process_content(message: discord.Message, clean_content: bool, remove_markdo
     return text
 
 
-def get_message_clusters(messages: list[discord.Message], clean_content: bool, remove_markdown: bool) -> Iterator[MessageCluster]:
+def get_message_clusters(
+    messages: list[discord.Message], clean_content: bool, remove_markdown: bool
+) -> Iterator[MessageCluster]:
     cluster = None
     for message in messages:
         if (
@@ -48,7 +54,9 @@ def get_message_clusters(messages: list[discord.Message], clean_content: bool, r
                 message.content,
             )
         else:
-            cluster.content += f" {process_content(message, clean_content, remove_markdown)}"
+            cluster.content += (
+                f" {process_content(message, clean_content, remove_markdown)}"
+            )
 
     # last cluster
     if cluster != None:
