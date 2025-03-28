@@ -21,7 +21,7 @@ class MessageCluster:
 def get_message_clusters(messages: list[discord.Message]) -> Iterator[MessageCluster]:
     cluster = None
     for message in messages:
-        if cluster == None or message.author != cluster.author:
+        if cluster == None or message.author != cluster.author or message.channel.id != cluster.channel_id:
             # finish off cluster
             if cluster != None:
                 yield cluster

@@ -4,7 +4,6 @@ import pytest
 from models.channel import Channel
 from services.message_processor import MessageCluster, get_message_clusters
 
-
 @pytest.mark.asyncio
 async def test_message_clusters(bot):
     _channel = dpytest.get_config().channels[0]
@@ -43,16 +42,19 @@ async def test_message_clusters(bot):
 
     assert (
         cluster1.author == _member1
+        and cluster1.channel_id == _channel.id
         and cluster1.created_at == message1.created_at
         and cluster1.content == f"{_cluster1[0]}{_cluster1[1]}{_cluster1[2]}"
     )
     assert (
         cluster2.author == _member2
+        and cluster2.channel_id == _channel.id
         and cluster2.created_at == message2.created_at
         and cluster2.content == f"{_cluster2[0]}{_cluster2[1]}"
     )
     assert (
         cluster3.author == _member1
+        and cluster2.channel_id == _channel.id
         and cluster3.created_at == message3.created_at
         and cluster3.content == f"{_cluster3[0]}"
     )
