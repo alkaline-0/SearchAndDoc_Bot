@@ -4,6 +4,7 @@ import pytest
 from models.channel import Channel
 from services.message_processor import MessageCluster, get_message_clusters
 
+
 @pytest.mark.asyncio
 async def test_message_clusters(bot):
     _channel = dpytest.get_config().channels[0]

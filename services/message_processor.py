@@ -5,7 +5,6 @@ from dataclasses import dataclass
 import discord
 
 
-
 @dataclass
 class MessageCluster:
     id: int
@@ -21,14 +20,22 @@ class MessageCluster:
 def get_message_clusters(messages: list[discord.Message]) -> Iterator[MessageCluster]:
     cluster = None
     for message in messages:
-        if cluster == None or message.author != cluster.author or message.channel.id != cluster.channel_id:
+        if (
+            cluster == None
+            or message.author != cluster.author
+            or message.channel.id != cluster.channel_id
+        ):
             # finish off cluster
             if cluster != None:
                 yield cluster
 
             # begin new cluster
             cluster = MessageCluster(
-                message.id, message.channel.id, message.author, message.created_at, message.content
+                message.id,
+                message.channel.id,
+                message.author,
+                message.created_at,
+                message.content,
             )
         else:
             cluster.content += message.content
